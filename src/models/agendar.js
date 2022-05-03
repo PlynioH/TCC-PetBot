@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const database = require('../data/database');
-const Animal = require('./animal')
+const Animal = require('./animal.js')
 
 const Agendar = database.define('Consultas', {
 
@@ -21,15 +21,11 @@ const Agendar = database.define('Consultas', {
     descricao: {
         type: Sequelize.STRING,
         defaultValue: 'Nenhuma Observação Informada'
-    },
-    fkCodPet: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        unique: true,
-        foreignKey: 'tutorId'
     }
 });
-Agendar.belongsTo(Animal);
-
+Agendar.belongsTo(Animal, {
+    contraint: true,
+    foreignKey: 'codPet'
+});
 
 module.exports = Agendar;

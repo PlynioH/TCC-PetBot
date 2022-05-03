@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const database = require('../data/database');
-const User = require('./user')
+const User = require('./user.js')
 
 const Animal = database.define('Pet', {
 
@@ -45,14 +45,11 @@ const Animal = database.define('Pet', {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true
-    },
-    fkTutorId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        unique: true,
-        foreignKey: 'tutorId'
-    },
+    }
 });
-Animal.belongsTo(User);
+Animal.belongsTo(User, {
+    contraint: true,
+    foreignKey: 'tutorId'
+});
 
 module.exports = Animal;

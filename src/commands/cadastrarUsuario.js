@@ -1,9 +1,9 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const User = require('../models/user');
+const User = require('../models/user.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('cadastrar_usuario')
+        .setName('cadastrar-usuario')
         .setDescription('Realiza o Cadastro de Usuario.')
         .addStringOption(option =>
             option.setName('nome')

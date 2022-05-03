@@ -1,8 +1,9 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const Animal = require('../models/animal.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('cadastrar_pet')
+        .setName('cadastrar-pet')
         .setDescription('Realiza o Cadastro de Animais.')
         .addStringOption(option =>
             option.setName('nome')
@@ -56,7 +57,7 @@ module.exports = {
         const porte = interaction.options.getString('porte');
         const peso = interaction.options.getString('peso');
         const observacao = interaction.options.getString('observacao');
-        await User.create({
+        await Animal.create({
             nome: nomePet,
             especie: especie,
             raca: raca,
@@ -67,7 +68,6 @@ module.exports = {
             idade: idade,
             peso: peso,
             observacao: observacao
-            //adicionar a fk do tutor
         });
         await interaction.editReply(`${interaction.user.username} seu Pet foi cadastrado com sucesso.`)
     },
