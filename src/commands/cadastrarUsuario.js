@@ -1,9 +1,10 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const User = require('../models/user');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('cadastrar_usuario')
-        .setDescription('Realiza o Cadastro de Animais.')
+        .setDescription('Realiza o Cadastro de Usuario.')
         .addStringOption(option =>
             option.setName('nome')
                 .setDescription('Digite seu Nome')
@@ -18,7 +19,7 @@ module.exports = {
                 .setRequired(true))
         .addStringOption(option =>
             option.setName('data_nascimento')
-                .setDescription('Digite sua Data de Nascimento(DD-MM-AAAA)')
+                .setDescription('Digite sua Data de Nascimento(AAAA-MM-DD)')
                 .setRequired(true))
         .addStringOption(option =>
             option.setName('endereco')
@@ -34,23 +35,33 @@ module.exports = {
                 .setRequired(true)),
     async execute(interaction) {
         await interaction.deferReply();
-        const nome = interaction.options.getString('nome');
-        const cpf = interaction.options.getString('cpf');
+        const nome = await interaction.options.getString('nome');
+        const cpf = await interaction.options.getString('cpf');
         let pattern = /([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/g;
         if (!pattern.test(cpf)) {
             await interaction.editReply('cpf invalido')
             return 0
         }
-        const telefone = interaction.options.getString('telefone');
+        const telefone = await interaction.options.getString('telefone');
         pattern = /^\(?(?:[14689][1-9]|2[12478]|3[1234578]|5[1345]|7[134579])\)? ?(?:[2-8]|9[1-9])[0-9]{3}\-?[0-9]{4}$/g;
         if (!pattern.test(telefone)) {
             await interaction.editReply('telefone invalido')
             return 0
         }
-        const dataNascimento = interaction.options.getString('datanascimento')
-        const endereco = interaction.options.getString('endereco');
-        const nomeUsuario = interaction.options.getString('nomeusuario');
-        const senha = interaction.options.getString('senha');
+        const dataNascimento = await interaction.options.getString('data_nascimento')
+        const endereco = await interaction.options.getString('endereco');
+        const nomeUsuario = await interaction.options.getString('nome_usuario');
+        const senha = await interaction.options.getString('senha');
+        await User.create({
+            nome: nome,
+            cpf: cpf,
+            telefone: telefone,
+            dataNascimento: new Date(dataNascimento),
+            endereco: endereco,
+            usuario: nomeUsuario,
+            senha: senha,
+            codDiscord: interaction.user.id
+        });
         await interaction.editReply(`${interaction.user.username} seu cadastro foi realizado com sucesso.`)
     },
 };

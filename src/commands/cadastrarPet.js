@@ -56,6 +56,19 @@ module.exports = {
         const porte = interaction.options.getString('porte');
         const peso = interaction.options.getString('peso');
         const observacao = interaction.options.getString('observacao');
+        await User.create({
+            nome: nomePet,
+            especie: especie,
+            raca: raca,
+            cor: coloracao,
+            endereco: endereco,
+            sexo: sexo,
+            porte: porte,
+            idade: idade,
+            peso: peso,
+            observacao: observacao
+            //adicionar a fk do tutor
+        });
         await interaction.editReply(`${interaction.user.username} seu Pet foi cadastrado com sucesso.`)
     },
 };
