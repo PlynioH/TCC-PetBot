@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const Animal = require('../models/animal.js');
+const Animal = require('../models/animal');
 
 module.exports = {
     data: new SlashCommandBuilder()

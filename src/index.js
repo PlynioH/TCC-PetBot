@@ -3,9 +3,9 @@ const fs = require('node:fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { token } = require('../config.json');
 const database = require('./data/database');
-const User = require('./models/user.js');
-const Agendar = require('./models/agendar.js');
-const Animal = require('./models/animal.js');
+const User = require('./models/user');
+const Agendar = require('./models/agendar');
+const Animal = require('./models/animal');
 
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });

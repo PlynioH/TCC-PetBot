@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const database = require('../data/database');
-const Animal = require('./animal.js')
+const Animal = require('./animal')
 
 const Agendar = database.define('Consultas', {
 

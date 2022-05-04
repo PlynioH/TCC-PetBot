@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const database = require('../data/database');
-const User = require('./user.js')
+const User = require('./user')
 
 const Animal = database.define('Pet', {
 
