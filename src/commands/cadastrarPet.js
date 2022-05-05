@@ -1,12 +1,13 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Animal = require('../models/animal');
+const User = require('../models/user');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('cadastrar-pet')
         .setDescription('Realiza o Cadastro de Animais.')
         .addStringOption(option =>
-            option.setName('nome')
+            option.setName('nome_pet')
                 .setDescription('Digite o Nome do seu Pet')
                 .setRequired(true))
         .addStringOption(option =>
@@ -48,7 +49,7 @@ module.exports = {
                 .setRequired(false)),
     async execute(interaction) {
         await interaction.deferReply();
-        const nomePet = interaction.options.getString('nomePet');
+        const nomePet = interaction.options.getString('nome_pet');
         const sexo = interaction.options.getString('sexo');
         const idade = interaction.options.getInteger('idade');
         const especie = interaction.options.getString('especie');
@@ -57,17 +58,21 @@ module.exports = {
         const porte = interaction.options.getString('porte');
         const peso = interaction.options.getString('peso');
         const observacao = interaction.options.getString('observacao');
+        const fkTutorId = await interaction.user.id
+
+        //Analisar se está tendo verificação de chave estrangeira
+
         await Animal.create({
             nome: nomePet,
             especie: especie,
             raca: raca,
             cor: coloracao,
-            endereco: endereco,
             sexo: sexo,
             porte: porte,
             idade: idade,
             peso: peso,
-            observacao: observacao
+            observacao: observacao,
+            codDiscord: fkTutorId
         });
         await interaction.editReply(`${interaction.user.username} seu Pet foi cadastrado com sucesso.`)
     },

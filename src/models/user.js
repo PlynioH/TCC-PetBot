@@ -31,16 +31,11 @@ const User = database.define('Tutor', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    tutorId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true
-    },
     codDiscord: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        primaryKey: true
     }
 });
 

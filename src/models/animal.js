@@ -49,7 +49,7 @@ const Animal = database.define('Pet', {
 });
 Animal.belongsTo(User, {
     contraint: true,
-    foreignKey: 'tutorId'
+    foreignKey: 'codDiscord'
 });
 
 module.exports = Animal;
