@@ -59,9 +59,6 @@ module.exports = {
         const peso = interaction.options.getString('peso');
         const observacao = interaction.options.getString('observacao');
         const fkTutorId = await interaction.user.id
-
-        //Analisar se está tendo verificação de chave estrangeira
-
         await Animal.create({
             nome: nomePet,
             especie: especie,
