@@ -3,9 +3,10 @@ const fs = require('node:fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { token } = require('../config.json');
 const database = require('./data/database');
+const Animal = require('./models/animal');
 const User = require('./models/user');
 const Agendar = require('./models/agendar');
-const Animal = require('./models/animal');
+
 
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
@@ -22,6 +23,11 @@ for (const file of commandFiles) {
 
 // When the client is ready, run this code (only once)
 client.once('ready', async () => {
+	User.hasMany(Animal);
+	Animal.belongsTo(User);
+	Animal.hasMany(Agendar);
+	Agendar.belongsTo(Animal);
+	
 	await database.sync();
 	console.log('Ready!');
 });

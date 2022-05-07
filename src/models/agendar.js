@@ -2,8 +2,10 @@ const Sequelize = require('sequelize');
 const database = require('../data/database');
 const Animal = require('./animal')
 
+//Criação da Tabela
 const Agendar = database.define('Consultas', {
 
+    //Criação de campos da tabela
     codConsulta: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -22,10 +24,6 @@ const Agendar = database.define('Consultas', {
         type: Sequelize.STRING,
         defaultValue: 'Nenhuma Observação Informada'
     }
-});
-Agendar.belongsTo(Animal, {
-    contraint: true,
-    foreignKey: 'codPet'
 });
 
 module.exports = Agendar;

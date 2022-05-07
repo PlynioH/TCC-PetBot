@@ -41,15 +41,10 @@ const Animal = database.define('Pet', {
         defaultValue: 'Nenhuma'
     },
     codPet: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true
     }
-});
-Animal.belongsTo(User, {
-    contraint: true,
-    foreignKey: 'codDiscord'
 });
 
 module.exports = Animal;

@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const database = require('../data/database');
+const Animal = require('./animal')
 
 const User = database.define('Tutor', {
 

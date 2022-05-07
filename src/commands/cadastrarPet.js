@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Animal = require('../models/animal');
-const User = require('../models/user');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -69,7 +69,8 @@ module.exports = {
             idade: idade,
             peso: peso,
             observacao: observacao,
-            codDiscord: fkTutorId
+            codPet: uuidv4(),
+            TutorCodDiscord: fkTutorId
         });
         await interaction.editReply(`${interaction.user.username} seu Pet foi cadastrado com sucesso.`)
     },
