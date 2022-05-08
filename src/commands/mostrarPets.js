@@ -5,7 +5,6 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('mostrar-pet')
         .setDescription('Mostra os pets cadastrados em seu usuário.'),
-        //Verificar uma forma de ser buscado os dados no banco para ser replicado no chat
         async execute(interaction) {
             const user = await User.findByPk(interaction.user.id, { include: {association: 'Pets'}});
             user.Pets.map(async (pet) => {
