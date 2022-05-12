@@ -1,23 +1,11 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const User = require('../models/user');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('tirar-duvidas')
-        .setDescription('Tira duvidas sobre o software.')
-        .addStringOption(option =>
-            option.setName('duvida')
-                .setDescription('Descreva sua duvida')
-                .setRequired(true)),
+        .setDescription('Canais para se tirar duvidas sobre o software.'),
         async execute(interaction) {
             await interaction.deferReply();
-            const texto = await interaction.options.getString('duvida');
-            //Melhorar a lógica para poder analizar palavras dentro de uma String
-            if(texto === 'O que o bot faz'){
-                interaction.editReply(`O bot realiza cadastro de usuarios, pets e agenda consultas`);
-            }
-            else{
-                interaction.editReply(`Não entendi, poderia repetir...`);
-            }
+            interaction.editReply(`O Petbot ainda está em desenvolvimento e não possuí uma alta capacidade para tirar dúvidas, para tirar suas dúvidas entre em contato conosco através do nosso telefone (99)9999-9999 ou entre em contato através do chat com o usuário administrador`);
         }
 }

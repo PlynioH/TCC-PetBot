@@ -7,17 +7,16 @@ const Agendar = database.define('Consultas', {
 
     //Criação de campos da tabela
     codConsulta: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true
     },
     hora: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    dia: {
-        type: Sequelize.STRING,
+    data: {
+        type: Sequelize.DATE,
         allowNull: false
     },
     descricao: {
