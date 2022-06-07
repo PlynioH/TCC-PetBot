@@ -8,7 +8,7 @@ module.exports = {
         async execute(interaction) {
             const user = await User.findByPk(interaction.user.id, { include: {association: 'Pets'}});
             user.Pets.map(async (pet) => {
-                await interaction.channel.send(`Pet: ${pet.codPet} \nNome: ${pet.nome} \nEspecie: ${pet.especie} \nRaça: ${pet.raca} \nSexo: ${pet.sexo} \nIdade: ${pet.idade} \n\n`)
+                await interaction.channel.send(`**Pet:** ${pet.codPet} \n**Nome:** ${pet.nome} \n**Especie:** ${pet.especie} \n**Raça:** ${pet.raca} \n**Sexo:** ${pet.sexo} \n**Idade:** ${pet.idade} \n\n`)
             })
             return await interaction.reply({
                 content: `Pets mostrados com sucesso`,
