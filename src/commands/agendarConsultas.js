@@ -1,29 +1,42 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageActionRow, MessageSelectMenu } = require('discord.js');
 const Animal = require('../models/animal');
+const User = require('../models/user');
+const Agendar = require('../models/agendar');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('agendar-consulta')
-        .setDescription('Realiza o agendamento de uma consulta'),
-        async execute(interaction) {
-            const conbanco = [{dia: 1, horario: 1},{dia: 5, horario: 10},{dia: 20, horario: 9},{dia: 31, horario: 20}]
-            const conx = []
-            conbanco.map((a)=>{
-                conx.push({
-                    label: a.dia + " " + a.horario,
-                    value: `${a.dia}`
-                })
-            })
-            console.log(conx)
-            const row = new MessageActionRow()
-			.addComponents(
-				new MessageSelectMenu()
-					.setCustomId('select_day')
-					.setPlaceholder('selecionar dia')
-					.addOptions(conx),
-			);
-
-		    await interaction.reply({ content: 'Selecione o dia desejado', components: [row] });
-        }
-}
+        .setDescription('Realiza o agendamento da consulta.')
+        .addStringOption(option =>
+            option.setName('cod_pet')
+                .setDescription('Digite o código do seu pet')
+                .setRequired(true))
+        .addStringOption(option =>
+            option.setName('data')
+                .setDescription('Digite a data da consulta')
+                .setRequired(true))
+        .addStringOption(option =>
+            option.setName('horario')
+                .setDescription('Digite o horario da consulta')
+                .setRequired(true))
+        .addStringOption(option =>
+            option.setName('observacao')
+                .setDescription('Possui alguma obsevação ?')
+                .setRequired(true)),
+    async execute(interaction) {
+        await interaction.deferReply();
+        const codPet = await interaction.options.getString('cod_pet');
+        const data = await interaction.options.getString('data');
+        const hora = await interaction.options.getString('horario');
+        const observ = await interaction.options.getString('observacao')
+        await Agendar.create({
+            codConsulta: uuidv4(),
+            data: data,
+            hora: hora,
+            descricao: observ,
+            PetCodPet: codPet
+        });
+        await interaction.editReply(`${interaction.user.username} a consulta do seu pet foi agendada com sucesso.`)
+    },
+};
