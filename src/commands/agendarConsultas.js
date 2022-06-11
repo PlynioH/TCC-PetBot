@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const Animal = require('../models/animal');
 const { GoogleCalendar } = require('../utils/googleCalendar');
+const Agendar = require('../models/agendar');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -30,6 +32,12 @@ module.exports = {
             da.setMinutes(da.getMinutes() + 59)
             console.log(new Date(data))
             calendario.cadastrarEventos(new Date(data), da, animal.nome, descricao)
+            await Agendar.create({
+                codConsulta: uuidv4(),
+                data: da,
+                descricao: descricao,
+                PetCodPet: pet
+            });
 		    interaction.reply({ content: 'Consulta cadastrada com sucesso', ephemeral: true});
         }
 }

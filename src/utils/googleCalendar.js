@@ -1,5 +1,6 @@
 const { google } = require('googleapis')
 const { OAuth2 } = google.auth
+const { Data } = require('./data')
 require('dotenv').config()
 
 class GoogleCalendar {
@@ -8,6 +9,7 @@ class GoogleCalendar {
         const oAuth2Client = new OAuth2(process.env.googleClienteId, process.env.googleChaveSecreta)
         oAuth2Client.setCredentials({refresh_token: process.env.googleRefreshToken})
         this._calendar = google.calendar({version: 'v3', auth: oAuth2Client})
+        this._data = new Data()
     }
 
     pegarEventos(){
@@ -16,7 +18,7 @@ class GoogleCalendar {
             timeMin: (new Date()).toISOString(),
             singleEvents: true,
             orderBy: 'startTime',
-            timeMax: (new Date('2022-06-30')).toISOString(),
+            timeMax: (new Date(`2022-${new Date().getMonth() + 1}-${this._data.diasNoMesAtual()}`)).toISOString(),
         })
     }
 

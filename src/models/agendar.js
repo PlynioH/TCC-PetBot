@@ -11,10 +11,6 @@ const Agendar = database.define('Consultas', {
         allowNull: false,
         primaryKey: true
     },
-    hora: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
     data: {
         type: Sequelize.DATE,
         allowNull: false
