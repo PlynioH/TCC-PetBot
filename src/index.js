@@ -1,11 +1,14 @@
 // Require the necessary discord.js classes
 const fs = require('node:fs');
-const { Client, Collection, Intents } = require('discord.js');
-const { token } = require('../config.json');
+const { Client, Collection, Intents, SelectMenuInteraction } = require('discord.js');
 const database = require('./data/database');
 const Animal = require('./models/animal');
 const User = require('./models/user');
 const Agendar = require('./models/agendar');
+const { GoogleCalendar } = require('./utils/googleCalendar');
+const { Data } = require('./utils/data');
+const moment = require('moment')
+require('dotenv').config()
 
 
 // Create a new client instance
@@ -44,12 +47,38 @@ client.on('interactionCreate', async interaction => {
 			console.error(error);
 			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 		}
-	} else if (interaction.isSelectMenu){
-		//if(interaction.id){}
-		interaction.reply('ovo')
-		return interaction.delete()
+	}
+	else if (interaction.isAutocomplete()) {
+		const command = client.commands.get(interaction.commandName)
+		if(interaction.commandName == 'agendar-consulta'){
+			const focusedOption = interaction.options.getFocused(true)
+			if(focusedOption.name === 'pet'){
+				const user = await User.findByPk(interaction.user.id, { include: {association: 'Pets'}});
+				const pets = await user.Pets.map((pet) => {
+					return {
+						name: pet.nome,
+						value: `${pet.codPet}`
+					}
+				})
+				interaction.respond(pets)
+			} 
+			if(focusedOption.name === 'data'){
+				const calendario = new GoogleCalendar()
+				const data = new Data()
+				const eventos = await calendario.pegarEventos()
+				const disp = await data.devolverDiasHorariosLivres(eventos.data.items)
+				const e = disp.map((a) => {
+					const data = moment(a).format('DD/MM/YYYY HH:mm')
+					return {
+						name: data,
+						value: a
+					}
+				})
+				interaction.respond(e.slice(0, 25))
+			}
+		}
 	}
 });
 
 // Login to Discord with your client's token
-client.login(token);
+client.login(process.env.token);
