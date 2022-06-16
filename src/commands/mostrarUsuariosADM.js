@@ -12,7 +12,7 @@ module.exports = {
                 const users = await User.findAll({ raw: true });
                 var usuarios = ''
                 users.map(async (user) => {
-                    usuarios += `\nNome de usuário: ${user.usuario} \nNome: ${user.nome} \nEspecie: ${user.cpf} \nRaça: ${user.telefone} \nSexo: ${user.dataNascimento} \nIdade: ${user.endereco}\n`
+                    usuarios += `\nNome de usuário: ${user.usuario} \nNome: ${user.nome} \nCPF: ${user.cpf} \nTelefone: ${user.telefone} \nData de Nascimento: ${user.dataNascimento} \nEndereço: ${user.endereco}\n`
                 })
                 await fs.writeFile('usuarios.txt', usuarios, (err) => {
                     if (err) throw err;
